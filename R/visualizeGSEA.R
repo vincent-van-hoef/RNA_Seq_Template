@@ -13,7 +13,7 @@ gsea_viz <- function(geneList = genelist,
                      msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt"
                      ) {
 
-lib     <- modules::use("barplotGsea.R")
+lib     <- modules::use("R/barplotGsea.R")
 
 if (org == "hsa") {
     orgdb     <- org.Hs.eg.db
