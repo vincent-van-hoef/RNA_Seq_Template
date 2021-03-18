@@ -58,7 +58,7 @@ dev.off()
   
 # barplot
 pdf(paste0(outdir, paste(comp, collapse="_"), "_", collection, "_", go_class, "_barplot.pdf"))
-print(lib$fgsea_bars(x = res_gsea, select = 6, anot = comp))
+print(lib$barplotGsea$fgsea_bars(x = res_gsea, select = 6, anot = comp))
 dev.off()
   
 # Enrichment map

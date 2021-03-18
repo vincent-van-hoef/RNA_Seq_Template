@@ -16,7 +16,7 @@ lib     <- modules::use("convertID.R")
 
 # Convert ID if necessary
 if(convertToSymbol == TRUE) {
-  convertedObj <- lib$convertID(obj,
+  convertedObj <- lib$convertID$convertID(obj,
                             type = "SYMBOL",
                             keys = convertFromID,
                             db = db)
