@@ -6,9 +6,6 @@ suppressMessages(library("tidyr"))
 suppressMessages(library("DESeq2"))
 suppressMessages(library("pheatmap"))
 suppressMessages(library("RColorBrewer"))
-suppressMessages(library("org.Hs.eg.db"))
-suppressMessages(library("clusterProfiler"))
-suppressMessages(library("enrichplot"))
 suppressMessages(library("modules"))
 
 # Set working directory to main.R script location
