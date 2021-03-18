@@ -13,6 +13,8 @@ gsea_viz <- function(geneList = genelist,
                      msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt"
                      ) {
 
+lib     <- modules::use("barplotGsea.R")
+
 if (org == "hsa") {
     orgdb     <- org.Hs.eg.db
 } else if (org == "mmu") {
@@ -56,7 +58,7 @@ dev.off()
   
 # barplot
 pdf(paste0(outdir, paste(comp, collapse="_"), "_", collection, "_", go_class, "_barplot.pdf"))
-print(fgsea_bars(x = res_gsea, select = 6, anot = comp))
+print(lib$fgsea_bars(x = res_gsea, select = 6, anot = comp))
 dev.off()
   
 # Enrichment map

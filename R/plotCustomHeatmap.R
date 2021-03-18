@@ -12,9 +12,10 @@ plotCustomHeatmap <- function(obj = rld, # normalized deseq2 object
                               groupColumns = FALSE
                               ){
 
+lib     <- modules::use("convertID.R")
+
 # Convert ID if necessary
 if(convertToSymbol == TRUE) {
-  lib     <- modules::use("convertID.R")
   convertedObj <- lib$convertID(obj,
                             type = "SYMBOL",
                             keys = convertFromID,
