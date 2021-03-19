@@ -1,5 +1,6 @@
 # This is the analysis script for project #XXXX. This should be sourced before compiling the .Rmd report.
 
+# Load default config file
 config  <- config::get()
 
 # Load packages
@@ -12,8 +13,6 @@ suppressMessages(library("modules"))
 
 # Set working directory to main.R script location
 proj_dir <- dirname(sys.frame(1)$ofile)
-# Or select proj_dir for interactive session
-#proj_dir <- "~/Desktop/NBIS/Projects/project_5566/"
 setwd(proj_dir)
 
 # Load several custom function modules
@@ -30,7 +29,7 @@ dir.create(res_dir, showWarnings = FALSE)
 
 # Load datasets, make sure sample names are the same in data and meta
 cts   <- read.csv(paste0(proj_dir, config$countFile), sep = "\t", row.names = 1, check.names = FALSE)
-cts <- cts[,-1]
+cts <- cts[, -1]
 rownames(cts) <- gsub(".[0-9]+$", "", rownames(cts))
 meta   <- read.csv(paste0(proj_dir, config$metaDataFile), sep = ";", row.names = 1)
 
