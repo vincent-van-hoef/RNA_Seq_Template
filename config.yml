@@ -1,5 +1,4 @@
 default:
-  db: "org.Hs.eg.db"
   countFile: "data/merged_gene_counts.txt"
   metaDataFile: "data/metadata.csv"
   removeSamples: ""

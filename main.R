@@ -7,7 +7,7 @@ suppressMessages(library("ggplot2"))
 suppressMessages(library("DESeq2"))
 suppressMessages(library("pheatmap"))
 suppressMessages(library("RColorBrewer"))
-suppressMessages(library(config$db))
+suppressMessages(library("org.Hs.eg.db"))
 suppressMessages(library("modules"))
 
 # Set working directory to main.R script location
