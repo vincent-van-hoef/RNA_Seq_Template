@@ -47,7 +47,7 @@ if (org == "hsa") {
   } else if (collection == "MSIGDB") {
     gmt <- clusterProfiler::read.gmt(gmtfile = msigdb_file)
     gmt$term <- gsub("%.*", "", gmt$term)
-    res_gsea <- GSEA(geneList = genelist,
+    res_gsea <- GSEA(geneList = geneList,
                      TERM2GENE = gmt,
                      pvalueCutoff = 1,
                      verbose = FALSE)
