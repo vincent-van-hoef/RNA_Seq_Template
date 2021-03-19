@@ -1,4 +1,6 @@
 import("ggplot2")
+import("utils")
+import("stats")
 export("fgsea_bars")
 
 # Plotting Function GSEA

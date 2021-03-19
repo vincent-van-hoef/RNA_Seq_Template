@@ -1,5 +1,8 @@
-import("ComplexHeatmap", "modules")
+import("ComplexHeatmap", "Heatmap", "HeatmapAnnotation")
+import("SummarizedExperiment", "assay", "colData")
+import("grid")
 export("plotCustomHeatmap")
+lib     <- use("R/convertID.R")
 
 # Create heatmap of vst or rld normalized dds object
 plotCustomHeatmap <- function(obj = rld, # normalized deseq2 object
@@ -12,11 +15,9 @@ plotCustomHeatmap <- function(obj = rld, # normalized deseq2 object
                               groupColumns = FALSE
                               ){
 
-lib     <- modules::use("R/convertID.R")
-
 # Convert ID if necessary
 if(convertToSymbol == TRUE) {
-  convertedObj <- lib$convertID$convertID(obj,
+  convertedObj <- lib$convertID(obj,
                             type = "SYMBOL",
                             keys = convertFromID,
                             db = db)

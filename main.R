@@ -6,6 +6,7 @@ suppressMessages(library("tidyr"))
 suppressMessages(library("DESeq2"))
 suppressMessages(library("pheatmap"))
 suppressMessages(library("RColorBrewer"))
+suppressMessages(library("org.Hs.eg.db"))
 suppressMessages(library("modules"))
 
 # Set working directory to main.R script location
@@ -246,8 +247,7 @@ for (design in names(designList)) {
                 comp=comp,
                 collection = "GO",
                 org = "hsa",
-                orgdb = org.Hs.eg.db,
-             msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
+                msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
     }
     
     # KEGG Enrichment
@@ -261,7 +261,6 @@ for (design in names(designList)) {
              comp=comp,
              collection = "KEGG",
              org = "hsa",
-             orgdb = org.Hs.eg.db,
              msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
     
     # MSIGDB Enrichment
@@ -275,7 +274,6 @@ for (design in names(designList)) {
              comp=comp,
              collection = "MSIGDB",
              org = "hsa",
-             orgdb = org.Hs.eg.db,
              msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
     
     
@@ -302,7 +300,6 @@ for (design in names(designList)) {
                comp=comp,
                collection = "GO",
                org = "hsa",
-               orgdb = org.Hs.eg.db,
                msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
     }
     
@@ -317,7 +314,6 @@ for (design in names(designList)) {
              comp=comp,
              collection = "KEGG",
              org = "hsa",
-             orgdb = org.Hs.eg.db,
              msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
     
     # MSIGDB Enrichment
@@ -331,7 +327,6 @@ for (design in names(designList)) {
              comp=comp,
              collection = "MSIGDB",
              org = "hsa",
-             orgdb = org.Hs.eg.db,
              msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
     
   }

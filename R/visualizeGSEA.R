@@ -1,5 +1,12 @@
-import("enrichplot", "clusterProfiler", "org.Hs.eg.db", "org.Mm.eg.db", "org.Dr.eg.db")
+import("enrichplot")
+import("clusterProfiler")
+import("org.Hs.eg.db")
+import("org.Mm.eg.db"
+import("org.Dr.eg.db")
+import("utils")
+import("grDevices")
 export("gsea_viz")
+lib     <- modules::use("R/barplotGsea.R")
 
 # GO Enrichment
 gsea_viz <- function(geneList = genelist,
@@ -12,8 +19,6 @@ gsea_viz <- function(geneList = genelist,
                      org = "hsa",
                      msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt"
                      ) {
-
-lib     <- modules::use("R/barplotGsea.R")
 
 if (org == "hsa") {
     orgdb     <- org.Hs.eg.db
@@ -58,7 +63,7 @@ dev.off()
   
 # barplot
 pdf(paste0(outdir, paste(comp, collapse="_"), "_", collection, "_", go_class, "_barplot.pdf"))
-print(lib$barplotGsea$fgsea_bars(x = res_gsea, select = 6, anot = comp))
+print(lib$fgsea_bars(x = res_gsea, select = 6, anot = comp))
 dev.off()
   
 # Enrichment map
