@@ -2,12 +2,12 @@
 
 # Load packages
 suppressMessages(library("ggplot2"))
-suppressMessages(library("tidyr"))
 suppressMessages(library("DESeq2"))
 suppressMessages(library("pheatmap"))
 suppressMessages(library("RColorBrewer"))
 suppressMessages(library("org.Hs.eg.db"))
 suppressMessages(library("modules"))
+suppressMessages(library("config"))
 
 # Set working directory to main.R script location
 proj_dir <- dirname(sys.frame(1)$ofile)
@@ -15,14 +15,14 @@ proj_dir <- dirname(sys.frame(1)$ofile)
 #proj_dir <- "~/Desktop/NBIS/Projects/project_5566/"
 setwd(proj_dir)
 
-# Load several custom functions
+# Load several custom function modules
 lib <- modules::use("R")
 
 #############
 # Load data #
 #############
 
-# Set up a report folder, remove existing ones first
+# Set up a report folder, remove existing one first
 res_dir <- paste0(proj_dir, "/Report/")
 unlink(res_dir, recursive = TRUE)
 dir.create(res_dir, showWarnings = FALSE)
