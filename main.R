@@ -159,7 +159,7 @@ dev.off()
 
 pdf(paste0(sig_dir, sig, "_grouped.pdf"))
 lib$plotCustomHeatmap$plotCustomHeatmap(obj = rld,
-                  plotGenes =  interferonSignatures[sig],
+                  plotGenes =  signatures[sig],
                   anotationColumn = "Status",
                   anotationColor = list(Status = c("Control" = "green", "Fibro" = "purple")),
                   convertToSymbol = TRUE,

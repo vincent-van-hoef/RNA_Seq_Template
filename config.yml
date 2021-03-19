@@ -1,6 +1,6 @@
 default:
-  countFile: "data/merged_gene_counts.txt"
-  metaDataFile: "data/metadata.csv"
+  countFile: "/data/merged_gene_counts.txt"
+  metaDataFile: "/data/metadata.csv"
   removeSamples: ""
   gmtForHeatmap: "data/Human_GOBP_AllPathways_no_GO_iea_March_01_2021_symbol.gmt.txt"
   grepGmtTerm: "INTERFERON"

@@ -1,7 +1,7 @@
 import("enrichplot")
 import("clusterProfiler")
 import("org.Hs.eg.db")
-import("org.Mm.eg.db"
+import("org.Mm.eg.db")
 import("org.Dr.eg.db")
 import("utils")
 import("grDevices")
