@@ -1,10 +1,10 @@
-import("ComplexHeatmap", "Heatmap", "HeatmapAnnotation")
-import("SummarizedExperiment", "assay", "colData")
-import("grid")
-export("plotCustomHeatmap")
-lib     <- use("R/convertID.R")
+box::use(ComplexHeatmap[Heatmap, HeatmapAnnotation],
+          SummarizedExperiment[assay, colData],
+          grid)
+box::use(./convertID)
 
 # Create heatmap of vst or rld normalized dds object
+#' @export
 plotCustomHeatmap <- function(obj = rld, # normalized deseq2 object
                               plotGenes =  list, # single list of gene vectors,
                               anotationColumn = "Status",

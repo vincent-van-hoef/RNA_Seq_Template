@@ -1,14 +1,14 @@
-import("enrichplot")
-import("clusterProfiler")
-import("org.Hs.eg.db")
-import("org.Mm.eg.db")
-import("org.Dr.eg.db")
-import("utils")
-import("grDevices")
-export("gsea_viz")
-lib     <- modules::use("R/barplotGsea.R")
+box::use(enrichplot, 
+      clusterProfiler,
+      org.Hs.eg.db,
+      org.Mm.eg.db,
+      org.Dr.eg.db,
+      utils,
+      grDevices)
+box::use(./barplotGsea)
 
 # GO Enrichment
+#' @export
 gsea_viz <- function(geneList = genelist,
                     geneListID = "ENTREZID", # Should be ENTREZID
                      go_class = "BP",
