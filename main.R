@@ -9,7 +9,7 @@ suppressMessages(library("DESeq2"))
 suppressMessages(library("pheatmap"))
 suppressMessages(library("RColorBrewer"))
 suppressMessages(library("org.Hs.eg.db"))
-suppressMessages(library("modules"))
+suppressMessages(library("box"))
 
 # Set working directory to main.R script location
 proj_dir <- dirname(sys.frame(1)$ofile)
