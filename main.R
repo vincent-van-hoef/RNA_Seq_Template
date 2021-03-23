@@ -1,8 +1,10 @@
 # This is the analysis script for project #XXXX. This should be sourced before compiling the .Rmd report.
 
+# Load default config file
+config  <- config::get()
+
 # Load packages
 suppressMessages(library("ggplot2"))
-suppressMessages(library("tidyr"))
 suppressMessages(library("DESeq2"))
 suppressMessages(library("pheatmap"))
 suppressMessages(library("RColorBrewer"))
@@ -11,32 +13,32 @@ suppressMessages(library("modules"))
 
 # Set working directory to main.R script location
 proj_dir <- dirname(sys.frame(1)$ofile)
-# Or select proj_dir for interactive session
-#proj_dir <- "~/Desktop/NBIS/Projects/project_5566/"
 setwd(proj_dir)
 
-# Load several custom functions
+# Load several custom function modules
 lib <- modules::use("R")
 
 #############
 # Load data #
 #############
 
-# Set up a report folder, remove existing ones first
+# Set up a report folder, remove existing one first
 res_dir <- paste0(proj_dir, "/Report/")
 unlink(res_dir, recursive = TRUE)
 dir.create(res_dir, showWarnings = FALSE)
 
 # Load datasets, make sure sample names are the same in data and meta
-cts   <- read.csv(paste0(proj_dir, "/data/merged_gene_counts.txt"), sep = "\t", row.names = 1, check.names = FALSE)
-cts <- cts[,-1]
+cts   <- read.csv(paste0(proj_dir, config$countFile), sep = "\t", row.names = 1, check.names = FALSE)
+cts <- cts[, -1]
 rownames(cts) <- gsub(".[0-9]+$", "", rownames(cts))
-meta   <- read.csv(paste0(proj_dir, "/data/metadata.csv"), sep = ";", row.names = 1)
+meta   <- read.csv(paste0(proj_dir, config$metaDataFile), sep = ";", row.names = 1)
 
 # make sure samples are in the same order in metadata and count data
-meta <- meta[colnames(cts),, drop=FALSE]
-cts    <- cts[,rownames(meta)]
-if(!identical(colnames(cts), rownames(meta))){stop("Samplenames do not match between counts and metadata")}
+meta <- meta[colnames(cts), , drop = FALSE]
+cts    <- cts[, rownames(meta)]
+if(!identical(colnames(cts), rownames(meta))) {
+        stop("Samplenames do not match between counts and metadata")
+        }
 
 # Make and Save DESeq object
 dds <- DESeqDataSetFromMatrix(countData = cts, colData = meta, design = ~ 1)
@@ -47,7 +49,7 @@ dds <- DESeqDataSetFromMatrix(countData = cts, colData = meta, design = ~ 1)
 
 # Remove all zero genes
 keep <- rowSums(counts(dds)) > 1
-dds <- dds[keep,]
+dds <- dds[keep, ]
 
 ###################
 # Quality Control #
@@ -59,22 +61,22 @@ dir.create(qc_dir, showWarnings = FALSE)
 
 # Create barplot of the total number of reads per sample
 pdf(paste0(qc_dir, "barplot_raw_counts.pdf"))
-par(mar=c(7,6,2,2), mgp=c(5,1,0))
-barplot(colSums(counts(dds)), 
-        col = ifelse(colData(dds)$Status == "Control", "green", "red"),
-        ylab = "Number of mapped reads", las =2, cex.names=0.8)
+par(mar = c(7, 6, 2, 2), mgp = c(5, 1, 0))
+barplot(colSums(counts(dds)),
+        ylab = "Number of mapped reads",
+        las = 2,
+        cex.names = 0.8)
 abline(h = mean(colSums(counts(dds))))
 dev.off()
 
 # Create boxplot of logged raw counts: are there big differences in the library size?
 pdf(paste0(qc_dir, "boxplot_raw_counts.pdf"))
-par(mar=c(6,8,2,2))
-boxplot(log2(counts(dds)+1), 
-        col = ifelse(colData(dds)$Status == "Control", "green", "red"),
+par(mar = c(6, 8, 2, 2))
+boxplot(log2(counts(dds) + 1),
         pch = ".",
         horizontal = TRUE,
         las = 1,
-        cex.names=0.5,
+        cex.names = 0.5,
         xlab = "log2(Counts +1)")
 dev.off()
 
@@ -90,9 +92,8 @@ ggsave(paste0(qc_dir, "PCA_rlog_top1000.pdf"), plot = p3)
 
 # Create boxplot of logged raw counts: are there big differences in the library size?
 pdf(paste0(qc_dir, "boxplot_normalized_counts.pdf"))
-par(mar=c(6,8,2,2))
+par(mar = c(6, 8, 2, 2))
 boxplot(assay(rld), 
-        col = ifelse(colData(dds)$Status == "Control", "green", "red"),
         pch = ".",
         horizontal = TRUE,
         las = 1,
@@ -102,7 +103,7 @@ dev.off()
 # Sample Distances: how are the samples related to each other?
 sampleDists                 <- dist(t(assay(rld)))
 sampleDistMatrix            <- as.matrix(sampleDists)
-rownames(sampleDistMatrix)  <- paste(meta$samples, meta$number.of.eggs, sep = "_" )
+rownames(sampleDistMatrix)  <- rownames(colData(rld))
 colnames(sampleDistMatrix)  <- NULL
 colors <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
 pdf(paste0(qc_dir, "HeatmapDistances.pdf"))
@@ -117,7 +118,7 @@ dev.off()
 ##################
 
 # Remove samples if warranted by QC and/or other reasons
-dds <- dds[, !colnames(dds) %in% c("F36")]
+dds <- dds[, !colnames(dds) %in% config$removeSamples]
 
 # PCA plot of 100 most variable genes: did the sample filtering help?
 dds   <- estimateSizeFactors(dds)
@@ -139,14 +140,14 @@ sig_dir <- paste0(res_dir, "Signatures/")
 dir.create(sig_dir, showWarnings = FALSE)
 
 # Create heatmaps for interferon responses
-goList <- gage::readList("data/Human_GOBP_AllPathways_no_GO_iea_March_01_2021_symbol.gmt.txt")
+goList <- gage::readList(config$gmtForHeatmap)
 names(goList) <- gsub("%.*", "", names(goList))
-interferonSignatures <- goList[grep("INTERFERON", names(goList))]
+signatures <- goList[grep(config$grepGmtTerm, names(goList))]
 
-for(sig in names(interferonSignatures)){
+for (sig in names(signatures)) {
 pdf(paste0(sig_dir, sig, "_clustered.pdf"))
-lib$plotCustomHeatmap$plotCustomHeatmap(obj = rld, 
-                  plotGenes =  interferonSignatures[sig],
+lib$plotCustomHeatmap$plotCustomHeatmap(obj = rld,
+                  plotGenes =  signatures[sig],
                   anotationColumn = "Status",
                   anotationColor = list(Status = c("Control" = "green", "Fibro" = "purple")),
                   convertToSymbol = TRUE, 
@@ -157,7 +158,7 @@ dev.off()
 
 pdf(paste0(sig_dir, sig, "_grouped.pdf"))
 lib$plotCustomHeatmap$plotCustomHeatmap(obj = rld,
-                  plotGenes =  interferonSignatures[sig],
+                  plotGenes =  signatures[sig],
                   anotationColumn = "Status",
                   anotationColor = list(Status = c("Control" = "green", "Fibro" = "purple")),
                   convertToSymbol = TRUE,
@@ -175,8 +176,7 @@ dev.off()
 de_dir <- paste0(res_dir, "Differential_Expression/")
 dir.create(de_dir, showWarnings = FALSE)
 
-designList   <- list(Status = list(Model = "~ 0 + Status",
-                                   Contrast = list("Fibro_vs_Control" = c("Status", "Fibro", "Control"))))
+designList   <- config$designlist
 
 # Run DE and plotting function over each comparison in the designlist
 for (design in names(designList)) {
