@@ -1,10 +1,8 @@
-import("ggplot2")
-import("utils")
-import("stats")
-export("fgsea_bars")
+use(ggplot2, utils, stats)
 
 # Plotting Function GSEA
-fgsea_bars <- function(x, 
+#' @export
+fgsea_bars <- function(x,
                         select=6,
                         anot = comp) {
   tmp <- x[order(x$NES), ]

@@ -1,6 +1,6 @@
-import("AnnotationDbi")
-export("convertID")
+box::use(AnnotationDbi)
 
+#' @export
 convertID <- function(df, type, keys, db) {
 
   geneSymbols 	<- mapIds(db,

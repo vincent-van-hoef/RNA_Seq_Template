@@ -1,6 +1,6 @@
-import("ggplot2")
-export("plotVolcano")
+import(ggplot2)
 
+#' @export
 plotVolcano <- function(res,
                         sig,
                         fc) {
