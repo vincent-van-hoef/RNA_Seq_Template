@@ -1,4 +1,4 @@
-import(ggplot2)
+box::use(ggplot2)
 
 #' @export
 plotVolcano <- function(res,
