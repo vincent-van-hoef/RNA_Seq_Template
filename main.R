@@ -11,7 +11,7 @@ suppressMessages(library("RColorBrewer"))
 suppressMessages(library("org.Hs.eg.db"))
 
 # Set working directory to main.R script location
-proj_dir <- dirname(sys.frame(1)$ofile)
+proj_dir <- config$proj_dir 
 setwd(proj_dir)
 
 # Load several custom function modules
@@ -214,7 +214,7 @@ for (design in names(designList)) {
     
     # Create volcano plot
     png(paste0(diff_exp_dir, contrast, "_volcano.png"))
-    p1 <- libs$volcano$plotVolcano(res, fc = 1, sig = 0.05)
+    p1 <- libs$plotVolcano(res, fc = 1, sig = 0.05)
     print(p1)
     dev.off()
 

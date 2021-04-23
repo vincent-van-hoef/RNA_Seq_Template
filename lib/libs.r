@@ -39,7 +39,7 @@ box::use(ggplot2, utils, stats)
 convertID <- function(df, type, keys, db) {
 
   # Import
-  box::use(AnnotationDbi) 
+  box::use(AnnotationDbi[mapIds]) 
 
   geneSymbols 	<- mapIds(db,
                             keys = rownames(df),
@@ -52,7 +52,6 @@ convertID <- function(df, type, keys, db) {
   rownames(df2) 	<- found_genes
   return(df2)
 }
-
 
 # Create heatmap of vst or rld normalized dds object
 #' @export
@@ -69,12 +68,12 @@ plotCustomHeatmap <- function(obj = rld, # normalized deseq2 object
 # Import
 box::use(ComplexHeatmap[Heatmap, HeatmapAnnotation],
           SummarizedExperiment[assay, colData],
-          grid,
-          ./libs)
+          grid[gpar],
+          ./libs[convertID])
 
 # Convert ID if necessary
 if(convertToSymbol == TRUE) {
-  convertedObj <- libs$convertID(obj,
+  convertedObj <- convertID(obj,
                             type = "SYMBOL",
                             keys = convertFromID,
                             db = db)
@@ -173,7 +172,7 @@ dev.off()
   
 # barplot
 pdf(paste0(outdir, paste(comp, collapse="_"), "_", collection, "_", go_class, "_barplot.pdf"))
-print(libs$fgsea_bars(x = res_gsea, select = 6, anot = comp))
+print(gsea_bars(x = res_gsea, select = 6, anot = comp))
 dev.off()
   
 # Enrichment map

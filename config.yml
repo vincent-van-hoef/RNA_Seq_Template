@@ -1,6 +1,7 @@
 default:
   countFile: "~/Desktop/NBIS/Projects/project_5566/data/merged_gene_counts.txt"
   metaDataFile: "~/Desktop/NBIS/Projects/project_5566/data/metadata.csv"
+  proj_dir: "~/Desktop/NBIS/Projects/Templates/RNA_Seq_Template/"
   removeSamples: ""
   gmtForHeatmap: "~/Desktop/NBIS/Projects/project_5566/data/Human_GOBP_AllPathways_no_GO_iea_March_01_2021_symbol.gmt.txt"
   grepGmtTerm: "INTERFERON"
