@@ -5,7 +5,9 @@ fgsea_bars <- function(x,
                         anot = comp) {
 
 # Import
-box::use(ggplot2, utils, stats)
+box::use(ggplot2[...], 
+          utils, 
+          stats)
 
   tmp <- x[order(x$NES), ]
   dtfr <- rbind(head(tmp, select), tail(tmp, select))
@@ -120,13 +122,13 @@ gsea_viz <- function(geneList = genelist,
                      ) {
 
 # Import
-box::use(enrichplot,
-      clusterProfiler,
-      org.Hs.eg.db,
-      org.Mm.eg.db,
-      org.Dr.eg.db,
-      utils,
-      grDevices,
+box::use(enrichplot[...],
+      clusterProfiler[...],
+      org.Hs.eg.db[...],
+      org.Mm.eg.db[...],
+      org.Dr.eg.db[...],
+      utils[...],
+      grDevices[...],
       ./libs[fgsea_bars])
 
 if (org == "hsa") {
@@ -197,7 +199,7 @@ plotVolcano <- function(res,
                         fc) {
 
 # Import
-box::use(ggplot2)
+box::use(ggplot2[...])
 
 df <- as.data.frame(res)
 df$id <- rownames(df)
