@@ -69,12 +69,12 @@ plotCustomHeatmap <- function(obj = rld, # normalized deseq2 object
 # Import
 box::use(ComplexHeatmap[Heatmap, HeatmapAnnotation],
           SummarizedExperiment[assay, colData],
-          grid)
-box::use(./convertID)
+          grid,
+          ./libs)
 
 # Convert ID if necessary
 if(convertToSymbol == TRUE) {
-  convertedObj <- lib$convertID(obj,
+  convertedObj <- libs$convertID(obj,
                             type = "SYMBOL",
                             keys = convertFromID,
                             db = db)
@@ -121,14 +121,14 @@ gsea_viz <- function(geneList = genelist,
                      ) {
 
 # Import
-box::use(enrichplot, 
+box::use(enrichplot,
       clusterProfiler,
       org.Hs.eg.db,
       org.Mm.eg.db,
       org.Dr.eg.db,
       utils,
-      grDevices)
-box::use(./barplotGsea)
+      grDevices,
+      ./libs[fgsea_bars])
 
 if (org == "hsa") {
     orgdb     <- org.Hs.eg.db
@@ -173,7 +173,7 @@ dev.off()
   
 # barplot
 pdf(paste0(outdir, paste(comp, collapse="_"), "_", collection, "_", go_class, "_barplot.pdf"))
-print(lib$fgsea_bars(x = res_gsea, select = 6, anot = comp))
+print(libs$fgsea_bars(x = res_gsea, select = 6, anot = comp))
 dev.off()
   
 # Enrichment map

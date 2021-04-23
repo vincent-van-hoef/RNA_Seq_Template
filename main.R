@@ -15,7 +15,7 @@ proj_dir <- dirname(sys.frame(1)$ofile)
 setwd(proj_dir)
 
 # Load several custom function modules
-lib <- modules::use("R")
+box::use(./lib/libs)
 
 #############
 # Load data #
@@ -27,10 +27,10 @@ unlink(res_dir, recursive = TRUE)
 dir.create(res_dir, showWarnings = FALSE)
 
 # Load datasets, make sure sample names are the same in data and meta
-cts   <- read.csv(paste0(proj_dir, config$countFile), sep = "\t", row.names = 1, check.names = FALSE)
+cts   <- read.csv(config$countFile, sep = "\t", row.names = 1, check.names = FALSE)
 cts <- cts[, -1]
 rownames(cts) <- gsub(".[0-9]+$", "", rownames(cts))
-meta   <- read.csv(paste0(proj_dir, config$metaDataFile), sep = ";", row.names = 1)
+meta   <- read.csv(config$metaDataFile, sep = ";", row.names = 1)
 
 # make sure samples are in the same order in metadata and count data
 meta <- meta[colnames(cts), , drop = FALSE]
@@ -106,10 +106,10 @@ rownames(sampleDistMatrix)  <- rownames(colData(rld))
 colnames(sampleDistMatrix)  <- NULL
 colors <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
 pdf(paste0(qc_dir, "HeatmapDistances.pdf"))
-pheatmap(sampleDistMatrix,
+print(pheatmap(sampleDistMatrix,
          clustering_distance_rows = sampleDists,
          clustering_distance_cols = sampleDists,
-         col = colors)
+         col = colors))
 dev.off()
 
 ##################
@@ -145,7 +145,7 @@ signatures <- goList[grep(config$grepGmtTerm, names(goList))]
 
 for (sig in names(signatures)) {
 pdf(paste0(sig_dir, sig, "_clustered.pdf"))
-lib$plotCustomHeatmap$plotCustomHeatmap(obj = rld,
+libs$plotCustomHeatmap(obj = rld,
                   plotGenes =  signatures[sig],
                   anotationColumn = "Status",
                   anotationColor = list(Status = c("Control" = "green", "Fibro" = "purple")),
@@ -156,7 +156,7 @@ lib$plotCustomHeatmap$plotCustomHeatmap(obj = rld,
 dev.off()
 
 pdf(paste0(sig_dir, sig, "_grouped.pdf"))
-lib$plotCustomHeatmap$plotCustomHeatmap(obj = rld,
+libs$plotCustomHeatmap(obj = rld,
                   plotGenes =  signatures[sig],
                   anotationColumn = "Status",
                   anotationColor = list(Status = c("Control" = "green", "Fibro" = "purple")),
@@ -214,7 +214,7 @@ for (design in names(designList)) {
     
     # Create volcano plot
     png(paste0(diff_exp_dir, contrast, "_volcano.png"))
-    p1 <- lib$volcano$plotVolcano(res, fc = 1, sig = 0.05)
+    p1 <- libs$volcano$plotVolcano(res, fc = 1, sig = 0.05)
     print(p1)
     dev.off()
 
@@ -239,7 +239,7 @@ for (design in names(designList)) {
     gsea_dir_tmp <- paste0(contrast_dir, "GSEA/Log2FC/GO/", col, "/")
     dir.create(gsea_dir_tmp, showWarnings = FALSE, recursive = TRUE)
   
-    lib$visualizeGSEA$gsea_viz(geneList = genelist, 
+    libs$gsea_viz(geneList = genelist, 
                 go_class = col, 
                 n_terms = 20, 
                 outdir = gsea_dir_tmp, 
@@ -253,7 +253,7 @@ for (design in names(designList)) {
     kegg_dir <- paste0(contrast_dir, "GSEA/Log2FC/KEGG/")
     dir.create(kegg_dir, showWarnings = FALSE, recursive = TRUE)
     
-    lib$visualizeGSEA$gsea_viz(geneList = genelist, 
+    libs$gsea_viz(geneList = genelist, 
              go_class = "", 
              n_terms = 20, 
              outdir = kegg_dir, 
@@ -266,7 +266,7 @@ for (design in names(designList)) {
     msigdb_dir <- paste0(contrast_dir, "GSEA/Log2FC/MSIGDB/")
     dir.create(msigdb_dir, showWarnings = FALSE, recursive = TRUE)
     
-    lib$visualizeGSEA$gsea_viz(geneList = genelist, 
+    libs$gsea_viz(geneList = genelist, 
              go_class = "", 
              n_terms = 20, 
              outdir = msigdb_dir, 
@@ -292,7 +292,7 @@ for (design in names(designList)) {
       gsea_dir_tmp <- paste0(contrast_dir, "GSEA/signed_Pval/GO/", col, "/")
       dir.create(gsea_dir_tmp, showWarnings = FALSE, recursive = TRUE)
       
-      lib$visualizeGSEA$gsea_viz(geneList = genelist, 
+      libs$gsea_viz(geneList = genelist, 
                go_class = col, 
                n_terms = 20, 
                outdir = gsea_dir_tmp, 
@@ -306,7 +306,7 @@ for (design in names(designList)) {
     kegg_dir <- paste0(contrast_dir, "GSEA/signed_Pval/KEGG/")
     dir.create(kegg_dir, showWarnings = FALSE, recursive = TRUE)
     
-    lib$visualizeGSEA$gsea_viz(geneList = genelist, 
+    libs$gsea_viz(geneList = genelist, 
              go_class = "", 
              n_terms = 20, 
              outdir = kegg_dir, 
@@ -319,7 +319,7 @@ for (design in names(designList)) {
     msigdb_dir <- paste0(contrast_dir, "GSEA/signed_Pval/MSIGDB/")
     dir.create(msigdb_dir, showWarnings = FALSE, recursive = TRUE)
     
-    lib$visualizeGSEA$gsea_viz(geneList = genelist, 
+    libs$gsea_viz(geneList = genelist, 
              go_class = "", 
              n_terms = 20, 
              outdir = msigdb_dir, 
