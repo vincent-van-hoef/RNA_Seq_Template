@@ -5,8 +5,8 @@ fgsea_bars <- function(x,
                       anot = comp) {
 
 # Import
-box::use(ggplot2[...], 
-          utils[...], 
+box::use(ggplot2[...],
+          utils[...],
           stats[...])
 
   tmp <- x[order(x$NES), ]

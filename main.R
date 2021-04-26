@@ -11,7 +11,7 @@ suppressMessages(library("RColorBrewer"))
 suppressMessages(library("org.Hs.eg.db"))
 
 # Set working directory to main.R script location
-proj_dir <- config$proj_dir 
+proj_dir <- config$proj_dir
 setwd(proj_dir)
 
 # Load several custom function modules
