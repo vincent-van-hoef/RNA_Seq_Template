@@ -246,7 +246,7 @@ for (design in names(designList)) {
                 comp=comp,
                 collection = "GO",
                 org = "hsa",
-                msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
+                msigdb_file = config$msigdbFile)
     }
     
     # KEGG Enrichment
@@ -260,7 +260,7 @@ for (design in names(designList)) {
              comp=comp,
              collection = "KEGG",
              org = "hsa",
-             msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
+             msigdb_file = config$msigdbFile)
     
     # MSIGDB Enrichment
     msigdb_dir <- paste0(contrast_dir, "GSEA/Log2FC/MSIGDB/")
@@ -273,7 +273,7 @@ for (design in names(designList)) {
              comp=comp,
              collection = "MSIGDB",
              org = "hsa",
-             msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
+             msigdb_file = config$msigdbFile)
     
     
     # sign(Log2Fc)*-log10(Pvalue)
@@ -299,7 +299,7 @@ for (design in names(designList)) {
                comp=comp,
                collection = "GO",
                org = "hsa",
-               msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
+               msigdb_file = config$msigdbFile)
     }
     
     # KEGG Enrichment
@@ -313,7 +313,7 @@ for (design in names(designList)) {
              comp=comp,
              collection = "KEGG",
              org = "hsa",
-             msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
+             msigdb_file = config$msigdbFile)
     
     # MSIGDB Enrichment
     msigdb_dir <- paste0(contrast_dir, "GSEA/signed_Pval/MSIGDB/")
@@ -326,7 +326,7 @@ for (design in names(designList)) {
              comp=comp,
              collection = "MSIGDB",
              org = "hsa",
-             msigdb_file = "data/Human_MSigdb_March_01_2021_Entrezgene.gmt")
+             msigdb_file = config$msigdbFile)
     
   }
 }

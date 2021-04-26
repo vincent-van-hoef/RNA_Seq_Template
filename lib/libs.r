@@ -1,13 +1,13 @@
 # Plotting Function GSEA
 #' @export
 fgsea_bars <- function(x,
-                        select=6,
-                        anot = comp) {
+                      select=6,
+                      anot = comp) {
 
 # Import
 box::use(ggplot2[...], 
-          utils, 
-          stats)
+          utils[...], 
+          stats[...])
 
   tmp <- x[order(x$NES), ]
   dtfr <- rbind(head(tmp, select), tail(tmp, select))
@@ -174,7 +174,7 @@ dev.off()
   
 # barplot
 pdf(paste0(outdir, paste(comp, collapse="_"), "_", collection, "_", go_class, "_barplot.pdf"))
-print(gsea_bars(x = res_gsea, select = 6, anot = comp))
+print(fgsea_bars(x = res_gsea, select = 6, anot = comp))
 dev.off()
   
 # Enrichment map
