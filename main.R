@@ -1,5 +1,3 @@
-# TODO: Improve organism selection; make more universal.
-
 # This is the analysis script for project #XXXX. This should be sourced before compiling the .Rmd report.
 
 # Load default config file
